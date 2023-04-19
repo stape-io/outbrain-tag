@@ -1,4 +1,6 @@
 homepage: "https://stape.io/"
 versions:
+  - sha: 8650bd071c7b2280eb0fe096940a232fadcedbca
+    changeNotes: Ability to override clickId.
   - sha: 0669c1744bcc5d45f6a5b01a50ca657d1cdd4ba2
     changeNotes: Initial release.

@@ -36,7 +36,7 @@ if (data.type === 'page_view') {
 
     data.gtmOnSuccess();
 } else {
-    const outbrain_cid = getCookieValues('outbrain_cid')[0] || '';
+    const outbrain_cid = getCookieValues('outbrain_cid')[0] || data.clickId || '';
 
     let requestUrl = 'https://tr.outbrain.com/unifiedPixel?ob_click_id=' + enc(outbrain_cid);
         requestUrl = requestUrl + '&name=' + enc(data.name);
