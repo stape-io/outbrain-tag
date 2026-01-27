@@ -1,4 +1,5 @@
-homepage: "https://stape.io/"
+homepage: 'https://stape.io/'
+documentation: 'https://github.com/stape-io/outbrain-tag'
 versions:
   - sha: 8650bd071c7b2280eb0fe096940a232fadcedbca
     changeNotes: Ability to override clickId.
