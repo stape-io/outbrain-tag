@@ -1,6 +1,8 @@
 homepage: 'https://stape.io/'
 documentation: 'https://github.com/stape-io/outbrain-tag'
 versions:
+  - sha: 885554348a255fe9134fc0645527294d71a38daa
+    changeNotes: Logging removal.
   - sha: 9583e0b7b922537eb041f7d05f56e08159cd3071
     changeNotes: Added consent section.
   - sha: 8650bd071c7b2280eb0fe096940a232fadcedbca
