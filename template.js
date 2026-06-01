@@ -1,12 +1,9 @@
 ﻿const encodeUriComponent = require('encodeUriComponent');
 const getAllEventData = require('getAllEventData');
-const getContainerVersion = require('getContainerVersion');
 const getCookieValues = require('getCookieValues');
 const getEventData = require('getEventData');
 const getRequestHeader = require('getRequestHeader');
 const getType = require('getType');
-const JSON = require('JSON');
-const logToConsole = require('logToConsole');
 const makeString = require('makeString');
 const parseUrl = require('parseUrl');
 const sendHttpRequest = require('sendHttpRequest');
@@ -15,10 +12,6 @@ const setCookie = require('setCookie');
 /*==============================================================================
 ==============================================================================*/
 
-const containerVersion = getContainerVersion();
-const isDebug = containerVersion.debugMode;
-const isLoggingEnabled = determinateIsLoggingEnabled();
-const traceId = getRequestHeader('trace-id');
 const eventData = getAllEventData();
 
 if (!isConsentGivenOrNotRequired(data, eventData)) {
@@ -64,36 +57,9 @@ if (data.type === 'page_view') {
     requestUrl = requestUrl + '&currency=' + enc(data.currency);
   }
 
-  if (isLoggingEnabled) {
-    logToConsole(
-      JSON.stringify({
-        Name: 'Outbrain',
-        Type: 'Request',
-        TraceId: traceId,
-        EventName: 'Conversion',
-        RequestMethod: 'GET',
-        RequestUrl: requestUrl
-      })
-    );
-  }
-
   sendHttpRequest(
     requestUrl,
     (statusCode, headers, body) => {
-      if (isLoggingEnabled) {
-        logToConsole(
-          JSON.stringify({
-            Name: 'Outbrain',
-            Type: 'Response',
-            TraceId: traceId,
-            EventName: 'Conversion',
-            ResponseStatusCode: statusCode,
-            ResponseHeaders: headers,
-            ResponseBody: body
-          })
-        );
-      }
-
       if (statusCode >= 200 && statusCode < 300) {
         data.gtmOnSuccess();
       } else {
@@ -118,20 +84,4 @@ function isConsentGivenOrNotRequired(data, eventData) {
   if (eventData.consent_state) return !!eventData.consent_state.ad_storage;
   const xGaGcs = eventData['x-ga-gcs'] || ''; // x-ga-gcs is a string like "G110"
   return xGaGcs[2] === '1';
-}
-
-function determinateIsLoggingEnabled() {
-  if (!data.logType) {
-    return isDebug;
-  }
-
-  if (data.logType === 'no') {
-    return false;
-  }
-
-  if (data.logType === 'debug') {
-    return isDebug;
-  }
-
-  return data.logType === 'always';
 }
